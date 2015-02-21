@@ -9,6 +9,8 @@ public class TrainEngine : MonoBehaviour {
 	public Vector2 impactDir;
 	float magnitude = 0;
 	public AnimationCurve acceleration;
+	public float damage;
+	public float maxSpeed = 200;
 	float holdTime = 0;
 	// Use this for initialization
 	void Start () {
@@ -26,6 +28,14 @@ public class TrainEngine : MonoBehaviour {
 
 
 	}
+	bool accelerate = false;
+	void Accelerate(bool active){
+//		if(active)
+	}
+
+	void Brake(bool active){
+
+	}
 
 	void FixedUpdate(){
 //		if(countUp)	t += Time.deltaTime;
@@ -35,7 +45,7 @@ public class TrainEngine : MonoBehaviour {
 //		else if(countUp == false && t <= 0) countUp = true;
 
 		if(isEngine && Input.GetMouseButton (0)) rigidbody.AddForce(Vector2.right * acceleration.Evaluate(holdTime) * 2000);
-		if(rigidbody.velocity.x > 200) rigidbody.velocity = new Vector2(200, rigidbody.velocity.y); 
+		if(rigidbody.velocity.x > maxSpeed) rigidbody.velocity = new Vector2(maxSpeed, rigidbody.velocity.y); 
 		if (isEngine && Input.GetMouseButton (1)) rigidbody.drag += Time.deltaTime;
 		else rigidbody.drag -= Time.deltaTime;
 		if(rigidbody.drag < 0) rigidbody.drag =0;
@@ -44,7 +54,17 @@ public class TrainEngine : MonoBehaviour {
 
 
 	void OnCollisionEnter2D(Collision2D collide){
-		if(collide.collider.attachedRigidbody)
+		if(collide.collider.attachedRigidbody){
 			collide.collider.attachedRigidbody.AddForce (impactDir * 4, ForceMode2D.Impulse);
+			collide.collider.attachedRigidbody.AddTorque(5, ForceMode2D.Impulse);
+			if(collide.collider.GetComponent<Obstacle>() != null){
+				float accel = acceleration.Evaluate(holdTime) - acceleration.Evaluate(holdTime - Time.deltaTime);
+				this.damage += collide.collider.GetComponent<Obstacle>().damageAmount * accel * 10;
+				collide.collider.SendMessage("Destroy", SendMessageOptions.DontRequireReceiver);
+			}
+				
+		}
+			
+
 	}
 }

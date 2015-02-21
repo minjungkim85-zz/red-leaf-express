@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class GameManager : MonoBehaviour {
-	public float timer = 10f;
+	public float timer = 30f;
 	float curTime;
 	public TrainEngine train;
 //	public Transform trainTransform;
@@ -25,7 +25,13 @@ public class GameManager : MonoBehaviour {
 		GUILayout.Label ("Par time: " + timer);
 		GUILayout.Label ("Cur time: " + curTime);
 		GUILayout.Label ("Train speed: " + train.rigidbody.velocity.x);
-		GUILayout.Label ("Trip Completion %: " + travelPercentage);
+		if (train.damage < 100) {
+			GUILayout.Label ("Train damage: " + train.damage + " %");
+		} else {
+			GUILayout.Label ("Train damage: DESTROYED ");
+		}
+
+		GUILayout.Label ("Trip Completion: " + travelPercentage + " %");
 	}
 
 }
