@@ -11,6 +11,7 @@ public class ControlPanel : MonoBehaviour {
 
 	void OnTriggerStay2D(Collider2D collide){
 		if (Input.GetButtonDown("Submit")) {
+			Debug.Log ("Sending message " + function);
 			target.SendMessage(function, true,SendMessageOptions.DontRequireReceiver);
 		}else if(Input.GetButtonUp("Submit")){
 			target.SendMessage(function, false,SendMessageOptions.DontRequireReceiver);

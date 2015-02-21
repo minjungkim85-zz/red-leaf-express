@@ -18,7 +18,7 @@ public class TrainEngine : MonoBehaviour {
 	}
 	
 	void Update(){
-		if (Input.GetMouseButton (0)) {
+		if (accelerate) {
 			holdTime += Time.deltaTime;
 
 		} else {
@@ -31,10 +31,12 @@ public class TrainEngine : MonoBehaviour {
 	bool accelerate = false;
 	void Accelerate(bool active){
 //		if(active)
+		Debug.Log ("Setting accelerate to " + active);
+		accelerate = active;
 	}
-
+	bool brake = false;
 	void Brake(bool active){
-
+		brake = active;
 	}
 
 	void FixedUpdate(){
@@ -44,9 +46,9 @@ public class TrainEngine : MonoBehaviour {
 //		if (countUp && t >= 1) countUp = false;
 //		else if(countUp == false && t <= 0) countUp = true;
 
-		if(isEngine && Input.GetMouseButton (0)) rigidbody.AddForce(Vector2.right * acceleration.Evaluate(holdTime) * 2000);
+		if(isEngine && accelerate) rigidbody.AddForce(Vector2.right * acceleration.Evaluate(holdTime) * 2000);
 		if(rigidbody.velocity.x > maxSpeed) rigidbody.velocity = new Vector2(maxSpeed, rigidbody.velocity.y); 
-		if (isEngine && Input.GetMouseButton (1)) rigidbody.drag += Time.deltaTime;
+		if (isEngine && brake) rigidbody.drag += Time.deltaTime;
 		else rigidbody.drag -= Time.deltaTime;
 		if(rigidbody.drag < 0) rigidbody.drag =0;
 		if(rigidbody.drag > 10) rigidbody.drag =10;
