@@ -36,6 +36,7 @@ public class TrainEngine : MonoBehaviour {
 	}
 	bool brake = false;
 	void Brake(bool active){
+		Debug.Log ("Setting brake to " + active);
 		brake = active;
 	}
 
