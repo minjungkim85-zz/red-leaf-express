@@ -11,25 +11,23 @@ public class ControlPanel : MonoBehaviour {
 //		Debug.Log (name +": Player's inside me!");
 	}
 
-	void Update(){
-		if (playerInside) {
+	void LateUpdate(){
+
 //			Debug.Log (name + ": player is inside!");
-			if (Input.GetButtonDown("Submit")) {
+		if (Input.GetButtonDown("Submit")) {
+			float dist = Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, transform.position);
+			Debug.Log (name + ": " + dist);
+			if(dist < 0.5f){
 				Debug.Log ("Sending message " + function);
 				target.SendMessage(function, true,SendMessageOptions.DontRequireReceiver);
-			}else if(Input.GetButtonUp("Submit")){
-				target.SendMessage(function, false,SendMessageOptions.DontRequireReceiver);
+				playerInside = true;
 			}
-		}
 
-	}
-
-	void OnTriggerExit2D(Collider2D collide){
-		if (collide.tag == "Player") { 
+		}else if(playerInside && Input.GetButtonUp("Submit")){
+			target.SendMessage(function, false,SendMessageOptions.DontRequireReceiver);
 			playerInside = false;
-			Debug.Log (name +": Player's exited me!");
 		}
-			
-
 	}
+
+
 }
