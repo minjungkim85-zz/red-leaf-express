@@ -3,6 +3,7 @@ using System.Collections;
 
 public class CameraController : MonoBehaviour {
 	public Transform target;
+	public bool forwardPanMode = false;
 	float defaultCameraSize = 5;
 	float currentCameraSize = 5;
 	
@@ -10,12 +11,14 @@ public class CameraController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		cam = GetComponent<Camera> ();
-		defaultCameraSize = cam.orthographicSize;
+		defaultCameraSize = currentCameraSize = cam.orthographicSize;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		Vector3 v =  Vector3.Lerp (transform.position, target.transform.position, 0.99f);
+		if(forwardPanMode) v.x += cam.orthographicSize;
+		v.y = transform.position.y;
 		v.z = -10;
 		transform.position = v;
 		currentCameraSize -= Input.GetAxis ("Mouse ScrollWheel");
