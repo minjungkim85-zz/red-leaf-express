@@ -31,7 +31,7 @@ public class TrainEngine : MonoBehaviour {
 			holdTime -= Time.deltaTime;
 		}
 		holdTime = Mathf.Clamp01 (holdTime);
-		if (antigrav && Input.GetMouseButtonDown (0)) {
+		if (antigrav && energy >= antiGravCost && Input.GetMouseButtonDown (0)) {
 			Vector3 pos = Input.mousePosition;
 			
 			pos.y = -4.9f;
