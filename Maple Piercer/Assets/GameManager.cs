@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour {
 	public float timer = 30f;
-	float curTime;
+	public float curTime;
 	public TrainEngine train;
 //	public Transform trainTransform;
 	public Transform stationTransform;

@@ -11,6 +11,7 @@ public class TrainEngine : MonoBehaviour {
 	public AnimationCurve acceleration;
 	public float damage;
 	public float maxSpeed = 200;
+	public float accelerationRate = 2000;
 	float holdTime = 0;
 	// Use this for initialization
 	void Start () {
@@ -47,7 +48,7 @@ public class TrainEngine : MonoBehaviour {
 //		if (countUp && t >= 1) countUp = false;
 //		else if(countUp == false && t <= 0) countUp = true;
 
-		if(isEngine && accelerate) rigidbody.AddForce(Vector2.right * acceleration.Evaluate(holdTime) * 2000);
+		if(isEngine && accelerate) rigidbody.AddForce(Vector2.right * acceleration.Evaluate(holdTime) * accelerationRate);
 		if(rigidbody.velocity.x > maxSpeed) rigidbody.velocity = new Vector2(maxSpeed, rigidbody.velocity.y); 
 		if (isEngine && brake) rigidbody.drag += Time.deltaTime;
 		else rigidbody.drag -= Time.deltaTime;
