@@ -47,7 +47,7 @@ public class DisasterSpawner : MonoBehaviour {
 	static int nMaxAcc = 1000;  	// maximum possible number of accidents.
 	static double maxJitter = .03;	// maximum amount of position jitter, in proportion of step size.
 	
-	int provID; 					// the province for this run of the game	
+	public int provID; 					// the province for this run of the game	
 	double trackLength; 			// length of the track in world units.
 	public double trackOrigin;				// origin of the track in world units. 
 	

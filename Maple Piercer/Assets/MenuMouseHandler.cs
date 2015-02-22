@@ -14,8 +14,17 @@ public class MenuMouseHandler : MonoBehaviour {
 	}
 	
 	public void OnMouseDown(){
+		
+		float waitDurS  = .2f;
+		Invoke ("callScreen", waitDurS);
+	
+	}
+	
+	public void callScreen(){
 		if (this.name == "Play"){
 			Application.LoadLevel("main");
+		}else if (this.name == "EndStr"){
+			Application.LoadLevel ("start");
 		}
 	}
 }
