@@ -57,9 +57,11 @@ public class TrainEngine : MonoBehaviour {
 		if(isEngine) CheckFront ();
 	}
 
-
+	public bool collided = false;
 	void OnCollisionEnter2D(Collision2D collide){
 		if(collide.collider.attachedRigidbody){
+			collided = true; 
+			
 			collide.collider.attachedRigidbody.AddForce (impactDir * 4, ForceMode2D.Impulse);
 			collide.collider.attachedRigidbody.AddTorque(5, ForceMode2D.Impulse);
 			if(collide.collider.GetComponent<Obstacle>() != null){
@@ -72,6 +74,7 @@ public class TrainEngine : MonoBehaviour {
 			
 
 	}
+	
 	public bool collisionIncoming = false;
 	public float collisionCheckDist = 40;
 	void CheckFront(){
