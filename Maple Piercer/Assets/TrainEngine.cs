@@ -103,7 +103,7 @@ public class TrainEngine : MonoBehaviour {
 		energy -= antiGravCost;
 		Collider2D[] obstacles = Physics2D.OverlapCircleAll(point, 5, 1<<LayerMask.NameToLayer("Obstacle"));
 		foreach (Collider2D c in obstacles) {
-			c.SendMessage("Lift");
+			c.SendMessage("Lift", SendMessageOptions.DontRequireReceiver);
 		}
 	}
 
