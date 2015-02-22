@@ -43,7 +43,7 @@ public class DisasterSpawner : MonoBehaviour {
 		};
 	
 	int nProv, nAcc;				// number of provinces, number of accidents/occurrences.
-	double accProb = .95; 			// gain control for overall probabilities
+	private double accProb = .15; 	// gain control for overall probabilities
 	static int nMaxAcc = 1000;  	// maximum possible number of accidents.
 	static double maxJitter = .03;	// maximum amount of position jitter, in proportion of step size.
 	
@@ -71,7 +71,7 @@ public class DisasterSpawner : MonoBehaviour {
 		
 		provID  = 1; // The province for this run of the game. Needs to be passed in somehow.
 		
-		trackOrigin = -550; // Origin of the track. We will translate our positions with this. 
+		trackOrigin = -660; 			// Origin of the track. We will translate our positions with this. 
 		trackLength = 2250-trackOrigin; // Full length of the track. We will multiply our positions with this. 
 		
 		double[] prob = copyArray(probAll[provID]); // disaster probabilities associated with this province.
@@ -81,7 +81,7 @@ public class DisasterSpawner : MonoBehaviour {
 		disasterData = new List<DisasterData>();
 		
 		for(int i=0; i < nMaxAcc; i++){
-			if (Random.Range (0f,1f) < accProb){
+			if (Random.Range (0f,1f) <= accProb){
 				DisasterData d = new DisasterData();
 				
 				// Where does this disaster occur?
@@ -104,6 +104,7 @@ public class DisasterSpawner : MonoBehaviour {
 				Instantiate(prefab[prefabID], new Vector3((float)d.pos, 0, 0), Quaternion.identity);
 				
 			}
+			
 		}
 
 		
