@@ -54,6 +54,7 @@ public class TrainEngine : MonoBehaviour {
 		else rigidbody.drag -= Time.deltaTime;
 		if(rigidbody.drag < 0) rigidbody.drag =0;
 		if(rigidbody.drag > 10) rigidbody.drag =10;
+		if(isEngine) CheckFront ();
 	}
 
 
@@ -70,5 +71,11 @@ public class TrainEngine : MonoBehaviour {
 		}
 			
 
+	}
+	public bool collisionIncoming = false;
+	public float collisionCheckDist = 40;
+	void CheckFront(){
+		RaycastHit2D rh = Physics2D.Raycast (transform.position, Vector2.right, Mathf.Max (10, rigidbody.velocity.x * 2), 1 << LayerMask.NameToLayer ("Obstacle"));
+		collisionIncoming = rh.collider != null;
 	}
 }
