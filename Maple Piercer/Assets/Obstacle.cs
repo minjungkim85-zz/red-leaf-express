@@ -17,7 +17,7 @@ public class Obstacle : MonoBehaviour {
 	
 	}
 
-	void OnMouseDown(){
+	void Lift(){
 		GetComponent<Rigidbody2D> ().AddForce (new Vector2 (0.35f, 1) * 20, ForceMode2D.Impulse);
 		Destruct (false);
 	}
@@ -31,14 +31,10 @@ public class Obstacle : MonoBehaviour {
 				GameObject o = Instantiate(p, transform.position + new Vector3(Random.Range(2,3),Random.Range(2,3),0), Quaternion.identity) as GameObject;
 				o.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(0,1),Random.Range(0,1)) * 10 ,ForceMode2D.Impulse);
 			}
-//			foreach(GameObject p in pieces){
-
-//			}
 		}
+
 	}
-
-
-
+	
 	IEnumerator DelayedDestroy(){
 		yield return new WaitForSeconds (1.0f);
 		Debug.Log (name +": Destroying self");

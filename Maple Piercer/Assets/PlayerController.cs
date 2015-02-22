@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour {
 	public bool usePhysics;
 	Rigidbody2D rb;
 	Animator ani;
+
 	// Use this for initialization
 	void Start () {
 		cc = Camera.main.GetComponent<CameraController> ();
@@ -18,12 +19,15 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
 		if(usePhysics) return;
 		Vector3 v = transform.localPosition + Vector3.right * Input.GetAxis("Horizontal") * Time.deltaTime * speed;
 //		if(v.x > xMax) cc.forwardPanMode = true;
 //		else cc.forwardPanMode = false;
 		v.x = Mathf.Clamp (v.x, xMin, xMax);
 		transform.localPosition = v;
+
+
 	}
 
 	void FixedUpdate(){

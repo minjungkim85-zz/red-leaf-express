@@ -13,6 +13,7 @@ public class TrainEngine : MonoBehaviour {
 	public float maxSpeed = 200;
 	public float accelerationRate = 2000;
 	float holdTime = 0;
+	public GameObject antigrav;
 	// Use this for initialization
 	void Start () {
 		rigidbody = GetComponent<Rigidbody2D> ();
@@ -26,7 +27,16 @@ public class TrainEngine : MonoBehaviour {
 			holdTime -= Time.deltaTime;
 		}
 		holdTime = Mathf.Clamp01 (holdTime);
-
+		if (antigrav && Input.GetMouseButtonDown (0)) {
+			Vector3 pos = Input.mousePosition;
+			
+			pos.y = -4.9f;
+			pos.x += 25f * rigidbody.velocity.x;
+			pos = Camera.main.ScreenToWorldPoint(pos);
+			pos.z = 0;
+			Instantiate (antigrav, pos, Quaternion.identity);
+			ApplyExplosiveForce(pos);
+		}
 
 	}
 	bool accelerate = false;
@@ -74,7 +84,14 @@ public class TrainEngine : MonoBehaviour {
 			
 
 	}
-	
+
+	void ApplyExplosiveForce(Vector2 point){
+		Collider2D[] obstacles = Physics2D.OverlapCircleAll(point, 3, 1<<LayerMask.NameToLayer("Obstacle"));
+		foreach (Collider2D c in obstacles) {
+			c.SendMessage("Lift");
+		}
+	}
+
 	public bool collisionIncoming = false;
 	public float collisionCheckDist = 40;
 	void CheckFront(){
