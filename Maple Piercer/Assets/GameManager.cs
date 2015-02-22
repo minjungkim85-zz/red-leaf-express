@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour {
 //		Debug.Log (curDist / totalDist);
 		travelPercentage = (1 - curDist / totalDist) ;
 
-		if (train.damage >= 10 && isDead == false) {
+		if (train.damage >= 100 && isDead == false) {
 			isDead = true;
 			train.rigidbody.drag = 4f;
 			StartCoroutine("GameOver");
