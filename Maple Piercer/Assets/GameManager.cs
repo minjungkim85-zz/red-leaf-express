@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class GameManager : MonoBehaviour {
+	public GameObject[] backgrounds;
 	public float timer = 30f;
 	public float curTime;
 	public TrainEngine train;
@@ -13,6 +14,8 @@ public class GameManager : MonoBehaviour {
 	float totalDist;
 	float curDist;
 	void Start(){
+		if(Random.Range(0,1) >0.5f) backgrounds[0].SetActive(true);
+		else backgrounds[1].SetActive(true);
 		totalDist = Vector3.Distance(train.transform.position, stationTransform.position);
 	}
 	bool isDead = false;
@@ -42,7 +45,15 @@ public class GameManager : MonoBehaviour {
 //			bg.enabled = false;
 //		}
 	}
+	void Victory(){
+		Debug.Log ("Victory!");
+		uiManager.ShowVictory();
+	}
 
+
+	public void MainMenu(){
+		Application.LoadLevel ("Start");
+	}
 	void OnGUI(){
 //		GUILayout.Label ("Par time: " + timer);
 //		GUILayout.Label ("Cur time: " + curTime);

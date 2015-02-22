@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Obstacle : MonoBehaviour {
 	public float damageAmount =20;
+	public bool dealFlatDamage = false;
 	public bool isDestroyable = true;
 	public GameObject[] pieces;
 	public int pieceSpawnAmount;

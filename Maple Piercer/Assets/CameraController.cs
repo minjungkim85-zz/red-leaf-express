@@ -11,7 +11,7 @@ public class CameraController : MonoBehaviour {
 	private Quaternion originRotation;
 	public float shake_decay;
 	public float shake_intensity;
-
+	float cameraMax = 2317f;
 	Camera cam;
 	public TrainEngine engine;
 	// Use this for initialization
@@ -32,8 +32,7 @@ public class CameraController : MonoBehaviour {
 		v.z = -10;
 		transform.position = v;
 		currentCameraSize -= Input.GetAxis ("Mouse ScrollWheel");
-		if(currentCameraSize < 1) currentCameraSize = 1;
-		cam.orthographicSize = currentCameraSize;
+
 		shake_intensity = engine.rigidbody.velocity.x / 1000f;
 		if (shake_intensity > 0){
 			transform.position = transform.position + Random.insideUnitSphere * shake_intensity;
@@ -45,7 +44,10 @@ public class CameraController : MonoBehaviour {
 			shake_intensity -= shake_decay;
 
 		}
-
+		float clampX = transform.position.x;
+		if (transform.position.x > cameraMax) {
+			transform.position = new Vector3(cameraMax, transform.position.y, transform.position.z);
+		}
 		if(transform.position.y >= -2.02f || transform.position.y <= -2.12f ) transform.position = new Vector3(transform.position.x, -2.02f, transform.position.z);
 
 	}

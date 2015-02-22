@@ -83,7 +83,9 @@ public class TrainEngine : MonoBehaviour {
 			collide.collider.attachedRigidbody.AddTorque(5, ForceMode2D.Impulse);
 			if(collide.collider.GetComponent<Obstacle>() != null){
 				float accel = acceleration.Evaluate(holdTime) - acceleration.Evaluate(holdTime - Time.deltaTime);
-				this.damage += collide.collider.GetComponent<Obstacle>().damageAmount * accel * 5;
+				Obstacle obstacle = collide.collider.GetComponent<Obstacle>();
+				if(obstacle.dealFlatDamage) this.damage += obstacle.damageAmount;
+				else this.damage += obstacle.damageAmount * accel * 1.5f;
 				collide.collider.SendMessage("Destruct",true, SendMessageOptions.DontRequireReceiver);
 			}
 				
@@ -94,7 +96,7 @@ public class TrainEngine : MonoBehaviour {
 
 	void ApplyExplosiveForce(Vector2 point){
 		energy -= antiGravCost;
-		Collider2D[] obstacles = Physics2D.OverlapCircleAll(point, 3, 1<<LayerMask.NameToLayer("Obstacle"));
+		Collider2D[] obstacles = Physics2D.OverlapCircleAll(point, 5, 1<<LayerMask.NameToLayer("Obstacle"));
 		foreach (Collider2D c in obstacles) {
 			c.SendMessage("Lift");
 		}

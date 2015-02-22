@@ -2,10 +2,13 @@
 using System.Collections;
 
 public class EndTrigger : MonoBehaviour {
-
+	public GameManager gm;
 	void OnTriggerEnter2D(Collider2D collide){
 		if (collide.tag == "Engine") {
-			Debug.Log ("Arrived at station");
+			TrainEngine te = collide.GetComponent<TrainEngine>();
+			if(te.rigidbody.velocity.x < 10){
+				gm.SendMessage("Victory");
+			}
 		}
 	}
 }
