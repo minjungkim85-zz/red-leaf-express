@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
 //	public Transform trainTransform;
 	public Transform stationTransform;
 	public UIManager uiManager;
-	float travelPercentage = 0;
+	public float travelPercentage = 0;
 	float totalDist;
 	float curDist;
 	void Start(){
@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour {
 		curTime += Time.deltaTime;
 		curDist = Vector3.Distance (train.transform.position, stationTransform.position);
 //		Debug.Log (curDist / totalDist);
-		travelPercentage = (1 - curDist / totalDist) * 100;
+		travelPercentage = (1 - curDist / totalDist) ;
 
 		if (train.damage >= 100) {
 			Time.timeScale = 0;
