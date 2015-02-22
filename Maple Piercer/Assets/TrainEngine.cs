@@ -21,7 +21,7 @@ public class TrainEngine : MonoBehaviour {
 	public SpriteRenderer brakeSprite;
 	public AudioClip[] clips;
 	AudioSource audioSource;
-
+	public AudioSource trainEngineAudioSource;
 	// Use this for initialization
 	void Start () {
 		
@@ -30,6 +30,8 @@ public class TrainEngine : MonoBehaviour {
 	}
 	
 	void Update(){
+		if (isEngine == false)
+			return;
 		if (accelerate) {
 			holdTime += Time.deltaTime;
 
@@ -39,7 +41,10 @@ public class TrainEngine : MonoBehaviour {
 		holdTime = Mathf.Clamp01 (holdTime);
 		if (antigrav && energy >= antiGravCost && Input.GetMouseButtonDown (0)) {
 			Vector3 pos = Input.mousePosition;
-			
+			if (isEngine){
+				int id = Random.Range (4,8);
+				audioSource.PlayOneShot(clips[id]);
+			}
 			pos.y = -4.9f;
 			pos.x += 25f * rigidbody.velocity.x;
 			pos = Camera.main.ScreenToWorldPoint(pos);
@@ -60,10 +65,15 @@ public class TrainEngine : MonoBehaviour {
 	}
 	bool brake = false;
 	void Brake(bool active){
+		if (isEngine){
+			int id = 8;
+			audioSource.PlayOneShot(clips[id]);
+		}
 		Debug.Log ("Setting brake to " + active);
 		brake = active;
 	}
 	public void BrakeWarning(){
+
 		brakeSprite.enabled = true;
 	}
 	void FixedUpdate(){
@@ -80,6 +90,10 @@ public class TrainEngine : MonoBehaviour {
 		if(rigidbody.drag < 0) rigidbody.drag =0;
 		if(rigidbody.drag > 10) rigidbody.drag =10;
 		if(isEngine) CheckFront ();
+		if (isEngine && rigidbody.velocity.x > 5 && trainEngineAudioSource.isPlaying == false)
+			trainEngineAudioSource.Play ();
+		else if(isEngine && trainEngineAudioSource.isPlaying == true)
+			trainEngineAudioSource.Stop ();
 	}
 
 	public bool collided = false;
@@ -93,12 +107,12 @@ public class TrainEngine : MonoBehaviour {
 				float accel = acceleration.Evaluate(holdTime) - acceleration.Evaluate(holdTime - Time.deltaTime);
 				Obstacle obstacle = collide.collider.GetComponent<Obstacle>();
 				if(obstacle.dealFlatDamage) this.damage += obstacle.damageAmount;
-				else this.damage += Mathf.Max(1,obstacle.damageAmount * accel * 1.5f);
+				else this.damage += Mathf.Max(0.5f,obstacle.damageAmount * accel * 0.75f);
 				collide.collider.SendMessage("Destruct",true, SendMessageOptions.DontRequireReceiver);
 				
 				// argh
 				if (isEngine){
-					int id = Random.Range (0,clips.Length);
+					int id = Random.Range (0,4);
 					audioSource.PlayOneShot(clips[id]);
 				}
 			}
@@ -109,6 +123,7 @@ public class TrainEngine : MonoBehaviour {
 	}
 
 	void ApplyExplosiveForce(Vector2 point){
+
 		energy -= antiGravCost;
 		Collider2D[] obstacles = Physics2D.OverlapCircleAll(point, 5, 1<<LayerMask.NameToLayer("Obstacle"));
 		foreach (Collider2D c in obstacles) {

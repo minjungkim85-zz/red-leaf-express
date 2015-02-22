@@ -27,6 +27,7 @@ public class DisasterData{
  *****/
 
 public class DisasterSpawner : MonoBehaviour {
+	public GameManager gm;
 	// Matrix of disaster probabilities.  
 	double[][] probAll = new double[][]
 		{	
@@ -57,6 +58,7 @@ public class DisasterSpawner : MonoBehaviour {
 		new int[]{2,3}
 	};
 	int prefabID;
+
 	
 	/***** DISASTER DATA
 		Let the departure location be 0, and the train destination be 1. Each item in the
@@ -68,8 +70,12 @@ public class DisasterSpawner : MonoBehaviour {
 	
 		nProv = probAll.GetLength (0);
 		nAcc  = probAll[0].GetLength (0);
-		
-		provID  = 1; // The province for this run of the game. Needs to be passed in somehow.
+
+		if (gm.randomRoll > .5f) {
+			provID = 2; // The province for this run of the game. Needs to be passed in somehow.
+		} else {
+			provID = 8;
+		}
 		
 		trackOrigin = -600; 			// Origin of the track. We will translate our positions with this. 
 		trackLength = 2250-trackOrigin; // Full length of the track. We will multiply our positions with this. 

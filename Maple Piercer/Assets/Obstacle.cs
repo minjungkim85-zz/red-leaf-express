@@ -31,6 +31,7 @@ public class Obstacle : MonoBehaviour {
 			for(int i = 0; i < pieceSpawnAmount; i++){
 				GameObject o = Instantiate(p, transform.position + new Vector3(Random.Range(2,3),Random.Range(2,3),0), Quaternion.identity) as GameObject;
 				o.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(0,1),Random.Range(0,1)) * 10 ,ForceMode2D.Impulse);
+				o.GetComponent<Rigidbody2D>().AddTorque(10 ,ForceMode2D.Impulse);
 			}
 		}
 

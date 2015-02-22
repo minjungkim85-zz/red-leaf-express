@@ -4,6 +4,7 @@ using System.Collections;
 
 public class CollisionWarning : MonoBehaviour {
 	public TrainEngine engine;
+//	public StationWarning stationWarning;
 	Image image;
 	// Use this for initialization
 	void Start () {
