@@ -49,7 +49,7 @@ public class DisasterSpawner : MonoBehaviour {
 	
 	int provID; 					// the province for this run of the game	
 	double trackLength; 			// length of the track in world units.
-	double trackOrigin;				// origin of the track in world units. 
+	public double trackOrigin;				// origin of the track in world units. 
 	
 	public Transform[] prefab;
 	int[][] prefabIDarray = {
@@ -71,7 +71,7 @@ public class DisasterSpawner : MonoBehaviour {
 		
 		provID  = 1; // The province for this run of the game. Needs to be passed in somehow.
 		
-		trackOrigin = -660; 			// Origin of the track. We will translate our positions with this. 
+		trackOrigin = -600; 			// Origin of the track. We will translate our positions with this. 
 		trackLength = 2250-trackOrigin; // Full length of the track. We will multiply our positions with this. 
 		
 		double[] prob = copyArray(probAll[provID]); // disaster probabilities associated with this province.

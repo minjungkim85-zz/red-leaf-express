@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour {
 	public TrainEngine train;
 //	public Transform trainTransform;
 	public Transform stationTransform;
+	public UIManager uiManager;
 	float travelPercentage = 0;
 	float totalDist;
 	float curDist;
@@ -19,19 +20,25 @@ public class GameManager : MonoBehaviour {
 		curDist = Vector3.Distance (train.transform.position, stationTransform.position);
 //		Debug.Log (curDist / totalDist);
 		travelPercentage = (1 - curDist / totalDist) * 100;
+
+		if (train.damage >= 100) {
+			Time.timeScale = 0;
+			uiManager.ShowGameOver();
+		}
 	}
 
 	void OnGUI(){
-		GUILayout.Label ("Par time: " + timer);
-		GUILayout.Label ("Cur time: " + curTime);
-		GUILayout.Label ("Train speed: " + train.rigidbody.velocity.x);
-		if (train.damage < 100) {
-			GUILayout.Label ("Train damage: " + train.damage + " %");
-		} else {
-			GUILayout.Label ("Train damage: DESTROYED ");
-		}
-
-		GUILayout.Label ("Trip Completion: " + travelPercentage + " %");
+//		GUILayout.Label ("Par time: " + timer);
+//		GUILayout.Label ("Cur time: " + curTime);
+//		GUILayout.Label ("Train speed: " + train.rigidbody.velocity.x);
+//		if (train.damage < 100) {
+//			GUILayout.Label ("Train damage: " + train.damage + " %");
+//		} else {
+//			GUILayout.Label ("Train damage: DESTROYED ");
+//		}
+//
+//		GUILayout.Label ("Trip Completion: " + travelPercentage + " %");
 	}
+
 
 }
