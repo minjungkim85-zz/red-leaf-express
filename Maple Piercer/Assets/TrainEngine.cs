@@ -18,11 +18,13 @@ public class TrainEngine : MonoBehaviour {
 	float maxEnergy = 100f;
 	public float antiGravCost = 25;
 	public float rechargeRate = 1f;
+
 	public AudioClip[] clips;
 	AudioSource audioSource;
 
 	// Use this for initialization
 	void Start () {
+		
 		audioSource = GetComponent<AudioSource> ();
 		rigidbody = GetComponent<Rigidbody2D> ();
 	}
@@ -91,7 +93,12 @@ public class TrainEngine : MonoBehaviour {
 				if(obstacle.dealFlatDamage) this.damage += obstacle.damageAmount;
 				else this.damage += obstacle.damageAmount * accel * 1.5f;
 				collide.collider.SendMessage("Destruct",true, SendMessageOptions.DontRequireReceiver);
-				audioSource.PlayOneShot(clips[0]);
+				
+				// argh
+				if (isEngine){
+					int id = Random.Range (0,clips.Length);
+					audioSource.PlayOneShot(clips[id]);
+				}
 			}
 				
 		}
