@@ -65,7 +65,7 @@ public class TrainEngine : MonoBehaviour {
 			if(collide.collider.GetComponent<Obstacle>() != null){
 				float accel = acceleration.Evaluate(holdTime) - acceleration.Evaluate(holdTime - Time.deltaTime);
 				this.damage += collide.collider.GetComponent<Obstacle>().damageAmount * accel * 10;
-				collide.collider.SendMessage("Destroy", SendMessageOptions.DontRequireReceiver);
+				collide.collider.SendMessage("Destruct",true, SendMessageOptions.DontRequireReceiver);
 			}
 				
 		}
@@ -75,7 +75,8 @@ public class TrainEngine : MonoBehaviour {
 	public bool collisionIncoming = false;
 	public float collisionCheckDist = 40;
 	void CheckFront(){
-		RaycastHit2D rh = Physics2D.Raycast (transform.position, Vector2.right, Mathf.Max (10, rigidbody.velocity.x * 2), 1 << LayerMask.NameToLayer ("Obstacle"));
+		RaycastHit2D rh = Physics2D.Raycast (transform.position - new Vector3(0,2,0), Vector2.right, Mathf.Max (10, rigidbody.velocity.x * 2), 1 << LayerMask.NameToLayer ("Obstacle"));
 		collisionIncoming = rh.collider != null;
+		if(rh.rigidbody)rh.rigidbody.isKinematic = false;
 	}
 }
