@@ -49,11 +49,7 @@ public class CameraController : MonoBehaviour {
 		if(transform.position.y >= -2.02f || transform.position.y <= -2.12f ) transform.position = new Vector3(transform.position.x, -2.02f, transform.position.z);
 
 	}
-	void OnGUI (){
-		if (GUI.Button (new Rect (20,40,80,20), "Shake")){
-			Shake ();
-		}
-	}
+
 	void Shake(){
 		originPosition = transform.position;
 		originRotation = transform.rotation;

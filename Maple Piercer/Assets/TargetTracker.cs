@@ -11,5 +11,6 @@ public class TargetTracker : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		transform.position = target.position;
+		transform.eulerAngles = target.eulerAngles;
 	}
 }

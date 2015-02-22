@@ -37,7 +37,7 @@ public class Obstacle : MonoBehaviour {
 	
 	IEnumerator DelayedDestroy(){
 		yield return new WaitForSeconds (1.0f);
-		Debug.Log (name +": Destroying self");
+//		Debug.Log (name +": Destroying self");
 		Destroy (gameObject);
 	}
 }
