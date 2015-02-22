@@ -43,7 +43,7 @@ public class DisasterSpawner : MonoBehaviour {
 		};
 	
 	int nProv, nAcc;				// number of provinces, number of accidents/occurrences.
-	private double accProb = .15; 	// gain control for overall probabilities
+	private double accProb = .1; 	// gain control for overall probabilities
 	static int nMaxAcc = 1000;  	// maximum possible number of accidents.
 	static double maxJitter = .03;	// maximum amount of position jitter, in proportion of step size.
 	
