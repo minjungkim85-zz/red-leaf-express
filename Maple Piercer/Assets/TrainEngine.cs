@@ -18,7 +18,7 @@ public class TrainEngine : MonoBehaviour {
 	float maxEnergy = 100f;
 	public float antiGravCost = 25;
 	public float rechargeRate = 1f;
-
+	public SpriteRenderer brakeSprite;
 	public AudioClip[] clips;
 	AudioSource audioSource;
 
@@ -63,7 +63,9 @@ public class TrainEngine : MonoBehaviour {
 		Debug.Log ("Setting brake to " + active);
 		brake = active;
 	}
-
+	public void BrakeWarning(){
+		brakeSprite.enabled = true;
+	}
 	void FixedUpdate(){
 //		if(countUp)	t += Time.deltaTime;
 //		else t -= Time.deltaTime;
@@ -91,7 +93,7 @@ public class TrainEngine : MonoBehaviour {
 				float accel = acceleration.Evaluate(holdTime) - acceleration.Evaluate(holdTime - Time.deltaTime);
 				Obstacle obstacle = collide.collider.GetComponent<Obstacle>();
 				if(obstacle.dealFlatDamage) this.damage += obstacle.damageAmount;
-				else this.damage += obstacle.damageAmount * accel * 1.5f;
+				else this.damage += Mathf.Max(1,obstacle.damageAmount * accel * 1.5f);
 				collide.collider.SendMessage("Destruct",true, SendMessageOptions.DontRequireReceiver);
 				
 				// argh
@@ -117,7 +119,7 @@ public class TrainEngine : MonoBehaviour {
 	public bool collisionIncoming = false;
 	public float collisionCheckDist = 40;
 	void CheckFront(){
-		RaycastHit2D rh = Physics2D.Raycast (transform.position - new Vector3(0,2,0), Vector2.right, Mathf.Max (10, rigidbody.velocity.x * 2), 1 << LayerMask.NameToLayer ("Obstacle"));
+		RaycastHit2D rh = Physics2D.Raycast (transform.position - new Vector3(0,2,0), Vector2.right, Mathf.Max (10, rigidbody.velocity.x * 1.25f), 1 << LayerMask.NameToLayer ("Obstacle"));
 		collisionIncoming = rh.collider != null;
 		if(rh.rigidbody)rh.rigidbody.isKinematic = false;
 	}

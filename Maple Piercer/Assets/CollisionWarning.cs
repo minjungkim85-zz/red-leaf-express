@@ -4,16 +4,16 @@ using System.Collections;
 
 public class CollisionWarning : MonoBehaviour {
 	public TrainEngine engine;
-	Text text;
+	Image image;
 	// Use this for initialization
 	void Start () {
-		text = GetComponent<Text> ();
+		image = GetComponent<Image> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(engine.collisionIncoming && text.enabled == false ) text.enabled = true;
-		else if(engine.collisionIncoming == false && text.enabled) text.enabled = false;
+		if(engine.collisionIncoming && image.enabled == false ) image.enabled = true;
+		else if(engine.collisionIncoming == false && image.enabled) image.enabled = false;
 
 	}
 }

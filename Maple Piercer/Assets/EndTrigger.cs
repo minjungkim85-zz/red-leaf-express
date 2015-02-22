@@ -6,7 +6,7 @@ public class EndTrigger : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D collide){
 		if (collide.tag == "Engine") {
 			TrainEngine te = collide.GetComponent<TrainEngine>();
-			if(te.rigidbody.velocity.x < 10){
+			if(te.rigidbody.velocity.x < 40){
 				gm.SendMessage("Victory");
 			}
 		}

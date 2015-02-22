@@ -14,17 +14,21 @@ public class GameManager : MonoBehaviour {
 	float totalDist;
 	float curDist;
 	void Start(){
-		if(Random.Range(0,1) >0.5f) backgrounds[0].SetActive(true);
+		if(Random.Range(0,2) >0) backgrounds[0].SetActive(true);
 		else backgrounds[1].SetActive(true);
 		totalDist = Vector3.Distance(train.transform.position, stationTransform.position);
 	}
 	bool isDead = false;
+	public bool displayWarning = false;
 	void Update(){
 		curTime += Time.deltaTime;
 		curDist = Vector3.Distance (train.transform.position, stationTransform.position);
 //		Debug.Log (curDist / totalDist);
 		travelPercentage = (1 - curDist / totalDist) ;
-
+		if (travelPercentage > 0.8f && displayWarning == false) {
+			displayWarning = true;
+			train.BrakeWarning();
+		}
 		if (train.damage >= 100 && isDead == false) {
 			isDead = true;
 			train.rigidbody.drag = 4f;
