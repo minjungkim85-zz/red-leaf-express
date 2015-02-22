@@ -14,6 +14,10 @@ public class TrainEngine : MonoBehaviour {
 	public float accelerationRate = 2000;
 	float holdTime = 0;
 	public GameObject antigrav;
+	public float energy = 100f;
+	float maxEnergy = 100f;
+	public float antiGravCost = 25;
+	public float rechargeRate = 1f;
 	// Use this for initialization
 	void Start () {
 		rigidbody = GetComponent<Rigidbody2D> ();
@@ -37,6 +41,9 @@ public class TrainEngine : MonoBehaviour {
 			Instantiate (antigrav, pos, Quaternion.identity);
 			ApplyExplosiveForce(pos);
 		}
+		energy += Time.deltaTime * rechargeRate;
+		energy = Mathf.Min (maxEnergy, energy);
+
 
 	}
 	bool accelerate = false;
@@ -76,7 +83,7 @@ public class TrainEngine : MonoBehaviour {
 			collide.collider.attachedRigidbody.AddTorque(5, ForceMode2D.Impulse);
 			if(collide.collider.GetComponent<Obstacle>() != null){
 				float accel = acceleration.Evaluate(holdTime) - acceleration.Evaluate(holdTime - Time.deltaTime);
-				this.damage += collide.collider.GetComponent<Obstacle>().damageAmount * accel * 10;
+				this.damage += collide.collider.GetComponent<Obstacle>().damageAmount * accel * 5;
 				collide.collider.SendMessage("Destruct",true, SendMessageOptions.DontRequireReceiver);
 			}
 				
@@ -86,6 +93,7 @@ public class TrainEngine : MonoBehaviour {
 	}
 
 	void ApplyExplosiveForce(Vector2 point){
+		energy -= antiGravCost;
 		Collider2D[] obstacles = Physics2D.OverlapCircleAll(point, 3, 1<<LayerMask.NameToLayer("Obstacle"));
 		foreach (Collider2D c in obstacles) {
 			c.SendMessage("Lift");

@@ -24,6 +24,11 @@ public class GameManager : MonoBehaviour {
 		if (train.damage >= 100) {
 			Time.timeScale = 0;
 			uiManager.ShowGameOver();
+			Camera.main.GetComponent<CameraController>().enabled = false;
+			foreach(BGLooper bg in Camera.main.GetComponentsInChildren<BGLooper>()){
+				bg.enabled = false;
+			}
+
 		}
 	}
 
